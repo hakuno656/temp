@@ -1,0 +1,238 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>Panel ThermoRGB</title>
+
+    <link
+        rel="stylesheet"
+        href="{{ url_for('static', filename='css/estilo.css') }}"
+    >
+
+    <script
+        src="{{ url_for('static', filename='js/script.js') }}"
+        defer
+    ></script>
+
+</head>
+
+<body>
+
+    <header class="topbar">
+
+        <div>
+            <span class="brand-dot"></span>
+
+            <strong>ThermoRGB</strong>
+
+            <span class="muted">
+                / Panel de control
+            </span>
+        </div>
+
+        <div class="user-area">
+
+            Hola, {{ usuario }}
+
+            ·
+
+            <a href="{{ url_for('logout') }}">
+                Cerrar sesión
+            </a>
+
+        </div>
+
+    </header>
+
+    <main class="container">
+
+        <section class="intro">
+
+            <div>
+
+                <p class="eyebrow">
+                    ARDUINO UNO · DHT11 · PID
+                </p>
+
+                <h1>
+                    Monitor de temperatura
+                </h1>
+
+                <p class="muted">
+                    Consulta la temperatura, humedad
+                    y color del LED RGB.
+                </p>
+
+            </div>
+
+            <div
+                id="connection"
+                class="status-pill"
+            >
+                Conectando...
+            </div>
+
+        </section>
+
+
+        <section class="metrics">
+
+            <article class="metric-card">
+
+                <p class="card-label">
+                    Temperatura actual
+                </p>
+
+                <div class="metric-value">
+
+                    <span id="temperature">
+                        --.-
+                    </span>
+
+                    <small>°C</small>
+
+                </div>
+
+                <p class="muted">
+                    Lectura del DHT11
+                </p>
+
+            </article>
+
+
+            <article class="metric-card">
+
+                <p class="card-label">
+                    Humedad relativa
+                </p>
+
+                <div class="metric-value">
+
+                    <span id="humidity">
+                        --
+                    </span>
+
+                    <small>%</small>
+
+                </div>
+
+                <p class="muted">
+                    Humedad ambiental
+                </p>
+
+            </article>
+
+
+            <article class="metric-card">
+
+                <p class="card-label">
+                    Color del LED RGB
+                </p>
+
+                <div
+                    id="led-preview"
+                    class="led-preview"
+                ></div>
+
+                <div class="rgb-values">
+
+                    R <span id="red">0</span>
+
+                    · G <span id="green">0</span>
+
+                    · B <span id="blue">255</span>
+
+                </div>
+
+            </article>
+
+        </section>
+
+
+        <section class="control-card">
+
+            <div class="section-heading">
+
+                <div>
+
+                    <p class="eyebrow">
+                        CONTROL PID
+                    </p>
+
+                    <h2>
+                        Temperatura objetivo
+                    </h2>
+
+                </div>
+
+                <div class="target-value">
+
+                    <span id="setpoint-label">
+                        25.0
+                    </span>
+
+                    °C
+
+                </div>
+
+            </div>
+
+            <p class="muted">
+                El PID modifica el color del LED según
+                la diferencia entre la temperatura medida
+                y el objetivo. El LED no modifica la
+                temperatura real de la habitación.
+            </p>
+
+            <form id="setpoint-form">
+
+                <label for="setpoint">
+                    Temperatura objetivo (0 a 50 °C)
+                </label>
+
+                <div class="slider-row">
+
+                    <input
+                        id="setpoint"
+                        type="range"
+                        min="0"
+                        max="50"
+                        step="0.5"
+                        value="25"
+                    >
+
+                    <output id="setpoint-output">
+                        25.0 °C
+                    </output>
+
+                </div>
+
+                <button type="submit">
+                    Aplicar objetivo
+                </button>
+
+            </form>
+
+            <p
+                id="message"
+                class="muted"
+                role="status"
+            >
+                Esperando datos...
+            </p>
+
+        </section>
+
+    </main>
+
+</body>
+
+</html>
